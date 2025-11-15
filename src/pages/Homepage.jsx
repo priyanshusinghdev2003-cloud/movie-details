@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import {useMovieApi} from "../movieApi/useGetMovie"
 import { useAuthStore } from '../store/useAuthStore'
 import Hero from '../components/Hero'
-
+import Upcoming from "../components/Upcoming"
 function Homepage() {
   const {getFeaturedMovie,featuredMovie}=useMovieApi()
   const {region,language}=useAuthStore()
@@ -16,6 +16,8 @@ function Homepage() {
   return (
     <div >
       <Hero featuredMovie={featuredMovie} />
+      
+      <Upcoming />
     </div>
   )
 }

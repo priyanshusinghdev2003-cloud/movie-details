@@ -3,14 +3,20 @@ import {Navigate, Route, Routes} from "react-router-dom"
 import Layout from './components/Layout'
 import Homepage from './pages/Homepage'
 import { useAuthStore } from './store/useAuthStore'
+import { useWishlistStore } from './store/useWishList'
 
 function App() {
   const {getUserRegion,user,getCurrentUser}=useAuthStore()
-  console.log(user)
+  const {fetchWishlist}=useWishlistStore()
   useEffect(()=>{
     getUserRegion()
     getCurrentUser()
-  },[])
+    if(user){
+      fetchWishlist({
+        userId: user.$id
+      })
+    }
+  },[user])
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

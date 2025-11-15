@@ -4,7 +4,7 @@ import { account } from "../lib/appwrite";
 
 export const useAuthStore = create((set, get) => ({
   region: null,
-  language: "en-US", 
+  language: "en-US",
   user: null,
   loadingUser: false,
 
@@ -22,9 +22,8 @@ export const useAuthStore = create((set, get) => ({
     try {
       const { data } = await axios.get("https://ipapi.co/json/");
 
-      const countryCode = data.country_name;        
-      const languageCode = data.languages;     
-  
+      const countryCode = data.country_name;
+      const languageCode = data.languages;
 
       set({
         region: countryCode,
@@ -33,20 +32,23 @@ export const useAuthStore = create((set, get) => ({
 
       sessionStorage.setItem("user_region", countryCode);
       sessionStorage.setItem("user_language", languageCode);
-
     } catch (error) {
       console.error("Failed to fetch region:", error);
     }
   },
 
   loginWithGoogle: () => {
+     const currentUser = get().user
+   if(currentUser) return
     const successURL = `${window.location.origin}/auth/success`;
     const failureURL = `${window.location.origin}/auth/failure`;
 
     account.createOAuth2Session("google", successURL, failureURL);
   },
 
-   getCurrentUser: async () => {
+  getCurrentUser: async () => {
+    const currentUser = get().user
+   if(currentUser) return
     set({ loadingUser: true });
     try {
       const userData = await account.get();
