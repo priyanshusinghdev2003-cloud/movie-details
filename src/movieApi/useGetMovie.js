@@ -7,6 +7,7 @@ export const useMovieApi = create((set, get) => ({
   recommendingMovies: null,
   similarMovies: null,
   movieDetail: null,
+  upcomingMovie: null,
 
   getFeaturedMovie: async ({ region, language }) => {
     const savedFeaturedMovie = get().featuredMovie;
@@ -22,4 +23,16 @@ export const useMovieApi = create((set, get) => ({
       console.error("Error fetching featured movie:", error);
     }
   },
+
+
+  getUpComingMovie : async({language})=>{
+    const savedUpcomingMovie =get().upcomingMovie;
+    if(savedUpcomingMovie) return
+    try {
+      const {data} = await axiosInstance.get(`/movie/upcoming?language=${language}&page=1`)
+       set({ upcomingMovie: data?.results });
+    } catch (error) {
+       console.error("Error fetching featured movie:", error);
+    }
+  }
 }));
