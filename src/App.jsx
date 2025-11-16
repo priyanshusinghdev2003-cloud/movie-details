@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Homepage from './pages/Homepage'
 import { useAuthStore } from './store/useAuthStore'
 import { useWishlistStore } from './store/useWishList'
+import MovieDetailPage from './pages/MovieDetailPage'
 
 function App() {
   const {getUserRegion,user,getCurrentUser}=useAuthStore()
@@ -22,6 +23,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Homepage />} />
         <Route path='/auth/success' element={<Navigate to={"/"} />} />
+        <Route path='/movie-detail/:id' element={<MovieDetailPage />} />
       </Route>
     </Routes>
   )

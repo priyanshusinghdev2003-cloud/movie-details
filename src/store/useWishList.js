@@ -17,7 +17,6 @@ export const useWishlistStore = create((set, get) => ({
     try {
   
       const res = await getWishlist(userId);
-      console.log(res)
       set({ wishlist: res.documents });
     } catch (err) {
       console.error("Error fetching wishlist:", err);
