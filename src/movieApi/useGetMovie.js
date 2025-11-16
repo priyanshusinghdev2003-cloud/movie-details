@@ -34,5 +34,41 @@ export const useMovieApi = create((set, get) => ({
     } catch (error) {
        console.error("Error fetching featured movie:", error);
     }
+  },
+
+
+  getMovieDetail: async({movieId,language})=>{
+    try {
+      const {data}=await axiosInstance.get(`/movie/${movieId}?language=${language}`)
+      return data;
+    } catch (error) {
+      console.log("Eroor at Fetching Movie Detail: ",error)
+    }
+  },
+  getMovieRecommendation: async({movieId})=>{
+    try {
+      const {data}=await axiosInstance.get(`/movie/${movieId}/recommendations`)
+      return data;
+    } catch (error) {
+      console.log("Eror at Fetching Movie Detail: ",error)
+    }
+  },
+  getMovieCredits: async({movieId,language})=>{
+    try {
+      const {data}=await axiosInstance.get(`/movie/${movieId}/credits?language=${language}`)
+      return data;
+    } catch (error) {
+      console.log("Eror at Fetching Movie Detail: ",error)
+    }
+  },
+
+  getMOvieTRailer: async({movieId,language})=>{
+    try {
+      const {data} = await axiosInstance.get(`/movie/${movieId}/videos?language=${language}`)
+      return data
+    } catch (error) {
+      console.log("Error at fetching Movie Trailer: ",error)
+    }
   }
+
 }));

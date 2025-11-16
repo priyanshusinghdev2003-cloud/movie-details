@@ -3,7 +3,7 @@ import { Bookmark, BookmarkCheck } from "lucide-react";
 import gsap from "gsap";
 import { useWishlistStore } from "../store/useWishList";
 import { useAuthStore } from "../store/useAuthStore";
-
+import {Link} from "react-router-dom"
 function MovieCard({ movie }) {
   const cardRef = useRef(null);
 
@@ -54,17 +54,20 @@ function MovieCard({ movie }) {
   };
 
   return (
+     <Link to={`/movie-detail/${movie.id}`}>
     <div
       ref={cardRef}
       className="relative w-[180px] h-[270px] rounded-lg overflow-hidden bg-black cursor-pointer shadow-lg"
     >
        <div className="absolute top-0 bg-gradient-to-t from-black via-black/70 to-transparent backdrop-blur-2xl"></div>
       {/* Poster */}
+     
       <img
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         className="w-full h-full object-cover"
         alt={movie.title}
       />
+     
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -92,6 +95,7 @@ function MovieCard({ movie }) {
         )}
       </button>
     </div>
+     </Link>
   );
 }
 
