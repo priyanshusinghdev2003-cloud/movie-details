@@ -11,9 +11,9 @@ function MovieCard({ movie }) {
    const {user}= useAuthStore()
 
   // Check if movie exists in wishlist
-  const inWishlist = wishlist.some((i) => i.movieId === String(movie.id));
+  const inWishlist = wishlist.some((i) => i.movieId === String(movie.id || movie.movieId));
 
-  // GSAP hover animation
+  
   useEffect(() => {
     const el = cardRef.current;
 
@@ -44,24 +44,25 @@ function MovieCard({ movie }) {
 
   const handleWishlist = () => {
     if (inWishlist) {
-      const doc = wishlist.find((i) => i.movieId === String(movie.id));
+      const doc = wishlist.find((i) => i.movieId === String(movie.id || movie.movieId));
       if (doc) removeItem(doc.$id);
     } else {
       addItem({
         userId: user.$id, movie
-      }); // You pass userId from parent OR use global auth store
+      }); 
     }
   };
 
   return (
-     <Link to={`/movie-detail/${movie.id}`}>
+    
     <div
       ref={cardRef}
       className="relative w-[180px] h-[270px] rounded-lg overflow-hidden bg-black cursor-pointer shadow-lg"
     >
+      <Link to={`/movie-detail/${movie.id || movie.movieId}`}>
        <div className="absolute top-0 bg-gradient-to-t from-black via-black/70 to-transparent backdrop-blur-2xl"></div>
       {/* Poster */}
-     
+      
       <img
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
         className="w-full h-full object-cover"
@@ -80,6 +81,8 @@ function MovieCard({ movie }) {
         </p>
       </div>
 
+      </Link>
+
       {/* Bookmark Button */}
       <button
         onClick={(e) => {
@@ -89,13 +92,13 @@ function MovieCard({ movie }) {
         className="absolute top-2 right-2 bg-black/50 p-1 rounded-full hover:bg-black/70 transition"
       >
         {inWishlist ? (
-          <BookmarkCheck size={20} className="text-green-400" />
+          <BookmarkCheck size={20} className="text-green-400 cursor-pointer hover:text-white" />
         ) : (
-          <Bookmark size={20} className="text-white" />
+          <Bookmark size={20} className="text-white cursor-pointer hover:text-green-400" />
         )}
       </button>
     </div>
-     </Link>
+    
   );
 }
 

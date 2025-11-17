@@ -8,6 +8,11 @@ export const useMovieApi = create((set, get) => ({
   similarMovies: null,
   movieDetail: null,
   upcomingMovie: null,
+  isLoading: false,
+  trendingCache: {
+    day: null,
+    week: null,
+  },
 
   getFeaturedMovie: async ({ region, language }) => {
     const savedFeaturedMovie = get().featuredMovie;
@@ -33,6 +38,35 @@ export const useMovieApi = create((set, get) => ({
        set({ upcomingMovie: data?.results });
     } catch (error) {
        console.error("Error fetching featured movie:", error);
+    }
+  },
+  
+
+  getTrendingMovie: async ({ time_window }) => {
+    const { trendingCache } = get();
+    if (trendingCache[time_window]) {
+      set({ trendingMovie: trendingCache[time_window] });
+      return; 
+    }
+    set({ isLoading: true });
+
+    try {
+      const { data } = await axiosInstance.get(
+        `trending/movie/${time_window}`
+      );
+
+     
+      set((state) => ({
+        trendingMovie: data.results,
+        trendingCache: {
+          ...state.trendingCache,
+          [time_window]: data.results,
+        },
+      }));
+    } catch (error) {
+      console.error("Error fetching trending movie:", error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
@@ -69,6 +103,6 @@ export const useMovieApi = create((set, get) => ({
     } catch (error) {
       console.log("Error at fetching Movie Trailer: ",error)
     }
-  }
+  },
 
 }));
