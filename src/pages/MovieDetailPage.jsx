@@ -9,19 +9,24 @@ import { useWishlistStore } from "../store/useWishList";
 import CreditInfo from "../components/CreditInfo";
 import Trailer from "../components/Trailer";
 import ReleaseStatus from "../components/ReleaseStatus";
+import MovieDetailShimmer from "../components/MovieDetailShimmer";
 
 function MovieDetailPage() {
-    const { addItem, removeItem, wishlist } = useWishlistStore();
+  const { addItem, removeItem, wishlist } = useWishlistStore();
   const { id } = useParams();
-  const { language } = useAuthStore();
-  const { getMovieDetail,getMovieRecommendation,getMovieCredits,getMOvieTRailer } = useMovieApi();
+  const { user,language } = useAuthStore();
+  const {
+    getMovieDetail,
+    getMovieRecommendation,
+    getMovieCredits,
+    getMOvieTRailer,
+  } = useMovieApi();
   const [movieDetail, setMovieDetail] = useState(null);
-  const [getMovieRecommendationData, setGetMovieRecommendation] = useState([])
-  const [getCredit, setGetCredit] = useState([])
-  const [movieTrailer,setMovieTrailer] = useState([])
+  const [getMovieRecommendationData, setGetMovieRecommendation] = useState([]);
+  const [getCredit, setGetCredit] = useState([]);
+  const [movieTrailer, setMovieTrailer] = useState([]);
 
   const progressRef = useRef(null);
-  console.log(movieDetail)
 
   const getMoviEDetailHandler = async () => {
     const data = await getMovieDetail({
@@ -35,33 +40,34 @@ function MovieDetailPage() {
       movieId: id,
       language,
     });
-    setGetCredit(data)
+    setGetCredit(data);
   };
   const getMoviEDetailImageHandler = async () => {
     const data = await getMovieRecommendation({
       movieId: id,
     });
 
-    setGetMovieRecommendation(data)
+    setGetMovieRecommendation(data);
   };
   const getMoviEDetailTrailer = async () => {
     const data = await getMOvieTRailer({
       movieId: id,
-      language
+      language,
     });
 
-    setMovieTrailer(data)
+    setMovieTrailer(data);
   };
 
   useEffect(() => {
     getMoviEDetailHandler();
-    getMoviEDetailImageHandler()
-    getMovieCredit()
-    getMoviEDetailTrailer()
- 
+    getMoviEDetailImageHandler();
+    getMovieCredit();
+    getMoviEDetailTrailer();
   }, [id]);
 
-    const inWishlist = wishlist?.some((i) => i.movieId === String(movieDetail?.id));
+  const inWishlist = wishlist?.some(
+    (i) => i.movieId === String(movieDetail?.id)
+  );
 
   // Animate progress bar to show revenue vs budget
   useEffect(() => {
@@ -78,11 +84,26 @@ function MovieDetailPage() {
     }
   }, [movieDetail]);
 
-  if (!movieDetail) return <div className="text-white p-10">Loading...</div>;
+
+  // wishlist handler
+   const handleWishlist = () => {
+    if(movieDetail){
+      if (inWishlist) {
+      const doc = wishlist.find((i) => i.movieId === String(movieDetail?.id ));
+      if (doc) removeItem(doc.$id);
+    } else {
+      addItem({
+        userId: user.$id, movie:movieDetail
+      }); 
+    }
+    }
+  };
+
+  if (!movieDetail) return <MovieDetailShimmer />;
 
   return (
     <div className="w-full bg-black text-white pb-20 px-5">
-      {/* ------------------------ BANNER ------------------------ */}
+      {/* Banner */}
       <div className="relative w-full h-[55vh] sm:h-[60vh] overflow-hidden">
         <motion.img
           src={`https://image.tmdb.org/t/p/original${movieDetail.backdrop_path}`}
@@ -92,19 +113,17 @@ function MovieDetailPage() {
           transition={{ duration: 1 }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div className="absolute bottom-4 md:bottom-0 cursor-pointer z-50 right-0 mr-5 ">
-             {inWishlist ? (
-                      <BookmarkCheck size={30} className="text-green-400" />
-                    ) : (
-                      <Bookmark size={30} className="text-white" />
-                    )}
+        <div className="absolute bottom-4 md:bottom-0 cursor-pointer z-50 right-0 mr-5 " onClick={handleWishlist}>
+          {inWishlist ? (
+            <BookmarkCheck size={30} className="text-green-400" />
+          ) : (
+            <Bookmark size={30} className="text-white" />
+          )}
         </div>
       </div>
-      
 
-      {/* ------------------------ POSTER + INFO ------------------------ */}
+    {/* Poster and Detail  */}
       <div className="flex flex-row gap-6 px-6 sm:px-12 -mt-20 relative">
-        {/* POSTER */}
         <div className="h-56 w-40 sm:h-74 sm:w-44 rounded-md overflow-hidden shadow-xl shrink-0 mx-auto sm:mx-0 relative">
           <motion.img
             src={`https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`}
@@ -113,14 +132,24 @@ function MovieDetailPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           />
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity: 1,y:0}} transition={{duration:0.8}} className="bg-white w-fit p-2 absolute top-2 z-5 text-black rounded-md right-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="bg-white w-fit p-2 absolute top-2 z-5 text-black rounded-md right-2"
+          >
             <ReleaseStatus release_date={movieDetail?.release_date} />
           </motion.div>
         </div>
-
-        {/* DETAILS */}
-        <motion.div initial={{opacity:0, x:20}} animate={{opacity:1,x:0}} transition={{duration: 0.8}} className="flex flex-col gap-3 max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl font-bold">{movieDetail.title}</h1>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col gap-3 max-w-3xl"
+        >
+          <h1 className="text-3xl sm:text-4xl font-bold">
+            {movieDetail.title}
+          </h1>
           <p className="text-gray-300 italic">{movieDetail.tagline}</p>
 
           <div className="flex items-center gap-2 text-sm text-gray-300">
@@ -136,8 +165,6 @@ function MovieDetailPage() {
               ? movieDetail.overview.slice(0, 250) + "..."
               : movieDetail.overview}
           </motion.p>
-
-          {/* GENRES */}
           <div className="flex flex-wrap gap-2 mt-3">
             {movieDetail.genres?.map((g) => (
               <span
@@ -148,8 +175,6 @@ function MovieDetailPage() {
               </span>
             ))}
           </div>
-
-          {/* REVENUE / BUDGET PROGRESS */}
           <div className="mt-4">
             <p className="text-gray-400 text-sm mb-1">
               Revenue vs Budget (${movieDetail?.budget?.toLocaleString()})
@@ -168,8 +193,12 @@ function MovieDetailPage() {
           </div>
         </motion.div>
       </div>
-      <motion.div initial={{x:-20, opacity:0}} animate={{opacity:1, x:0}} transition={{duration:1}}>
-        <Trailer trailer={movieTrailer?.results}/>
+      <motion.div
+        initial={{ x: -20, opacity: 0 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <Trailer trailer={movieTrailer?.results} />
       </motion.div>
       <div className="flex gap-2 items-center mt-5">
         <CreditInfo credit={getCredit?.cast} />

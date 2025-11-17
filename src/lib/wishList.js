@@ -14,7 +14,7 @@ export const addToWishlist = async (userId, movie) => {
       userId,
       movieId: String(movie.id),
       title: movie.title,
-      poster: movie.poster_path,
+      poster_path: movie.poster_path,
       backdrop: movie.backdrop_path
     }
   );

@@ -1,6 +1,7 @@
 import {LogOut} from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 import { Link } from 'react-router-dom';
+import { BookMarked } from "lucide-react";
 
 function Navbar() {
  const {loginWithGoogle,user,logout}= useAuthStore()
@@ -12,9 +13,15 @@ function Navbar() {
           alt="ScreenFlix Logo"
          className='max-w-[34%]'
           /></Link>
+         
 
         {user ? (
+           <div className='flex items-center gap-5'>
+            <Link to={"/user/wishlist"}>
+            <BookMarked className='cursor-pointer text-gray-200'/>
+            </Link>
           <LogOut className='cursor-pointer text-red-500' onClick={logout} />
+           </div>
         ) :(<button className="btn-red text-sm px-4 py-2 cursor-pointer" onClick={loginWithGoogle}>
           Sign In
         </button>)}
