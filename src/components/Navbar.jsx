@@ -18,7 +18,7 @@ function Navbar() {
         {user ? (
            <div className='flex items-center gap-5'>
             <Link to={"/user/wishlist"}>
-            <BookMarked className='cursor-pointer text-gray-200/>
+            <BookMarked className='cursor-pointer text-gray-200'/>
             </Link>
           <LogOut className='cursor-pointer text-red-500' onClick={logout} />
            </div>
