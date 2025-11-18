@@ -7,6 +7,7 @@ export const useMovieApi = create((set, get) => ({
   recommendingMovies: null,
   similarMovies: null,
   movieDetail: null,
+  popularMovie: null,
   upcomingMovie: null,
   isLoading: false,
   trendingCache: {
@@ -104,5 +105,19 @@ export const useMovieApi = create((set, get) => ({
       console.log("Error at fetching Movie Trailer: ",error)
     }
   },
+
+  getPopularMovie: async({language})=>{
+    const savedPopularMovie = get().popularMovie
+    if(savedPopularMovie) return
+    set({isLoading: true})
+    try {
+      const {data} =await axiosInstance.get(`/movie/popular?language=${language}&page=1`)
+      set({popularMovie: data?.results})
+    } catch (error) {
+      console.log("Error at fetching popular movie: ",error)
+    }finally{
+      set({isLoading: false})
+    }
+  }
 
 }));

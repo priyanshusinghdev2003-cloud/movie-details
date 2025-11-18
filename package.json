@@ -19,6 +19,7 @@
     "lucide-react": "^0.553.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.9.6",
     "react-shimmer-effects": "^1.0.4",
     "react-youtube": "^10.1.0",

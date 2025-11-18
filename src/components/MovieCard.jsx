@@ -4,6 +4,8 @@ import gsap from "gsap";
 import { useWishlistStore } from "../store/useWishList";
 import { useAuthStore } from "../store/useAuthStore";
 import {Link} from "react-router-dom"
+import {toast} from "react-hot-toast"
+
 function MovieCard({ movie }) {
   const cardRef = useRef(null);
 
@@ -43,13 +45,19 @@ function MovieCard({ movie }) {
   }, []);
 
   const handleWishlist = () => {
+    if(!user){
+      toast.error('User not login') 
+      return
+    }
     if (inWishlist) {
       const doc = wishlist.find((i) => i.movieId === String(movie.id || movie.movieId));
       if (doc) removeItem(doc.$id);
+      toast.success("Removed from Wishist!")
     } else {
       addItem({
         userId: user.$id, movie
       }); 
+      toast.success("Added To WishList")
     }
   };
 
