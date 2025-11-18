@@ -7,6 +7,7 @@ export const useAuthStore = create((set, get) => ({
   language: "en-US",
   user: null,
   loadingUser: false,
+  authInitialized: false,
 
   getUserRegion: async () => {
     const savedRegion = sessionStorage.getItem("user_region");
@@ -56,7 +57,7 @@ export const useAuthStore = create((set, get) => ({
     } catch (err) {
       set({ user: null });
     } finally {
-      set({ loadingUser: false });
+      set({ loadingUser: false, authInitialized: true });
     }
   },
 

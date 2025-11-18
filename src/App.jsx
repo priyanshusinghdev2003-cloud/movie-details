@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import Layout from "./components/Layout";
 import Homepage from "./pages/Homepage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useWishlistStore } from "./store/useWishList";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import WishListPage from "./pages/WishListPage";
+import Authcheck from "./components/Authcheck";
 
 function App() {
-  const { getUserRegion, user, getCurrentUser } = useAuthStore();
+  const { getUserRegion, user, getCurrentUser,loadingUser } = useAuthStore();
   const { fetchWishlist } = useWishlistStore();
   useEffect(() => {
     getUserRegion();
@@ -20,6 +22,9 @@ function App() {
     }
   }, [user]);
   return (
+   <>
+   <Toaster />
+   
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Homepage />} />
@@ -27,10 +32,11 @@ function App() {
         <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
         <Route
           path="/user/wishlist"
-          element={user ? <WishListPage /> : <Navigate to={"/"} />}
+          element={ <Authcheck />}
         />
       </Route>
     </Routes>
+    </>
   );
 }
 
