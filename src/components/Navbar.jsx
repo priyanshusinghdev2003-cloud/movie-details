@@ -1,4 +1,4 @@
-import { LogOut, BookMarked, User2 } from "lucide-react";
+import { LogOut, BookMarked, User2,Binoculars } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -17,7 +17,10 @@ function Navbar() {
             className="max-w-[34%]"
           />
         </Link>
-
+<div className="flex items-center gap-5">  
+ <Link to="/discover">
+              <Binoculars className="cursor-pointer text-yellow-300 hover:text-white transition" />
+            </Link>
         {/* laptop */}
         {user ? (
           <div className="hidden md:flex items-center gap-5">
@@ -55,6 +58,7 @@ function Navbar() {
             Sign In
           </button>
         )}
+        </div>
       </div>
 
      

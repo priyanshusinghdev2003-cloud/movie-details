@@ -105,6 +105,7 @@ function MovieCard({ movie }) {
           <Bookmark size={20} className="text-white cursor-pointer hover:text-green-400" />
         )}
       </button>
+      {movie?.adult && <span className="absolute top-2 left-0 bg-red-500/50 p-1 px-2 rounded-r-md hover:bg-red-500/70 transition">18+</span>}
     </div>
     
   );

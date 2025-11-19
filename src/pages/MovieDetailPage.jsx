@@ -10,6 +10,8 @@ import CreditInfo from "../components/CreditInfo";
 import Trailer from "../components/Trailer";
 import ReleaseStatus from "../components/ReleaseStatus";
 import MovieDetailShimmer from "../components/MovieDetailShimmer";
+import RecommendedMovie from "../components/RecommendedMovie";
+import SimilarMovie from "../components/SimilarMovie"
 
 function MovieDetailPage() {
   const { addItem, removeItem, wishlist } = useWishlistStore();
@@ -20,9 +22,12 @@ function MovieDetailPage() {
     getMovieRecommendation,
     getMovieCredits,
     getMOvieTRailer,
+    recommendingMovies,
+    isLoading,
+    similarMovies,
+    getSimilarMovie
   } = useMovieApi();
   const [movieDetail, setMovieDetail] = useState(null);
-  const [getMovieRecommendationData, setGetMovieRecommendation] = useState([]);
   const [getCredit, setGetCredit] = useState([]);
   const [movieTrailer, setMovieTrailer] = useState([]);
 
@@ -46,8 +51,6 @@ function MovieDetailPage() {
     const data = await getMovieRecommendation({
       movieId: id,
     });
-
-    setGetMovieRecommendation(data);
   };
   const getMoviEDetailTrailer = async () => {
     const data = await getMOvieTRailer({
@@ -57,13 +60,18 @@ function MovieDetailPage() {
 
     setMovieTrailer(data);
   };
+  
 
   useEffect(() => {
     getMoviEDetailHandler();
     getMoviEDetailImageHandler();
     getMovieCredit();
     getMoviEDetailTrailer();
+    getSimilarMovie({
+      movieID: id
+    })
   }, [id]);
+
 
   const inWishlist = wishlist?.some(
     (i) => i.movieId === String(movieDetail?.id)
@@ -100,7 +108,6 @@ function MovieDetailPage() {
   };
 
   if (!movieDetail) return <MovieDetailShimmer />;
-
   return (
     <div className="w-full bg-black text-white pb-20 px-5">
       {/* Banner */}
@@ -204,6 +211,8 @@ function MovieDetailPage() {
         <CreditInfo credit={getCredit?.cast} />
         <CreditInfo credit={getCredit?.crew} />
       </div>
+      {recommendingMovies && <RecommendedMovie recommend={recommendingMovies} isLoading={isLoading}/>}
+      {similarMovies?.length>0 && <SimilarMovie similar={similarMovies} isLoading={isLoading}/>}
     </div>
   );
 }

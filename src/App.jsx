@@ -8,6 +8,7 @@ import { useWishlistStore } from "./store/useWishList";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import WishListPage from "./pages/WishListPage";
 import Authcheck from "./components/Authcheck";
+import DiscoverPage from "./pages/DiscoverPage";
 
 function App() {
   const { getUserRegion, user, getCurrentUser,loadingUser } = useAuthStore();
@@ -34,6 +35,7 @@ function App() {
           path="/user/wishlist"
           element={ <Authcheck />}
         />
+        <Route path="/discover/*" element={<DiscoverPage />} />
       </Route>
     </Routes>
     </>
