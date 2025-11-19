@@ -5,6 +5,7 @@ import Hero from '../components/Hero'
 import Upcoming from "../components/Upcoming"
 import Trending from "../components/TRending"
 import Popular from '../components/Popular'
+import PopularActor from '../components/PopularActor'
 
 function Homepage() {
   const {getFeaturedMovie,featuredMovie}=useMovieApi()
@@ -21,7 +22,8 @@ function Homepage() {
       <Hero featuredMovie={featuredMovie} />
       <Trending />
       <Popular />
-      {/* <Upcoming /> */}
+      <PopularActor />
+      <Upcoming /> 
     </div>
   )
 }
