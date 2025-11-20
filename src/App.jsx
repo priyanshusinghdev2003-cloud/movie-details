@@ -9,6 +9,7 @@ import MovieDetailPage from "./pages/MovieDetailPage";
 import WishListPage from "./pages/WishListPage";
 import Authcheck from "./components/Authcheck";
 import DiscoverPage from "./pages/DiscoverPage";
+import CharacterInfo from "./pages/CharacterInfo"
 
 function App() {
   const { getUserRegion, user, getCurrentUser,loadingUser } = useAuthStore();
@@ -36,6 +37,7 @@ function App() {
           element={ <Authcheck />}
         />
         <Route path="/discover/*" element={<DiscoverPage />} />
+        <Route path="/charcter-info/:id" element={<CharacterInfo />} />
       </Route>
     </Routes>
     </>

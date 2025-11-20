@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function CreditInfo({ credit = [] }) {
   const containerRef = useRef(null);
@@ -45,6 +46,7 @@ function CreditInfo({ credit = [] }) {
           >
             {/* FULLY ROUNDED PROFILE IMAGE */}
             <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-800 flex items-center justify-center text-gray-400 border border-gray-700 shadow-md">
+             <Link to={`/charcter-info/${info?.id}`}>
               {profile ? (
                 <motion.img
                   src={profile}
@@ -58,6 +60,7 @@ function CreditInfo({ credit = [] }) {
                   <User size={40} className="text-gray-300" />
                 </div>
               )}
+             </Link>
             </div>
 
             {/* INFO TEXT */}
