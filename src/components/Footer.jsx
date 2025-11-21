@@ -1,6 +1,7 @@
 import React from "react";
 import {useAuthStore} from "../store/useAuthStore"
 import { FacebookIcon, Github, TwitterIcon, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const {user} = useAuthStore()
@@ -16,16 +17,16 @@ function Footer() {
          {user &&  <span className="text-white text-xl font-semibold">Hello, {user?.name}</span>}
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-10">
-          <a className="footer-link" href="#">FAQ</a>
-          <a className="footer-link" href="#">Help Center</a>
+          <Link className="footer-link" to="/faq">FAQ</Link>
+          <Link className="footer-link" to="/help">Help Center</Link>
           <a className="footer-link" href="#">Account</a>
         
-          <a className="footer-link" href="#">Watchlist</a>
-          <a className="footer-link" href="#">Privacy</a>
+          <Link className="footer-link" to="/user/wishlist">Wishlist</Link>
+          <Link className="footer-link" to="/privacy">Privacy</Link>
    
-          <a className="footer-link" href="#">Terms of Use</a>
-          <a className="footer-link" href="#">Cookie Preferences</a>
-          <a className="footer-link" href="#">Contact Us</a>
+          <Link className="footer-link" to="/terms">Terms of Use</Link>
+          <Link className="footer-link" to="/cookies">Cookie Preferences</Link>
+          <Link className="footer-link" to="/contact">Contact Us</Link>
         </div>
         <div className="flex gap-5 mb-8">
           <FacebookIcon className="hover:text-white transition cursor-pointer" />
