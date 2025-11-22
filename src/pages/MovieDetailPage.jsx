@@ -12,6 +12,7 @@ import ReleaseStatus from "../components/ReleaseStatus";
 import MovieDetailShimmer from "../components/MovieDetailShimmer";
 import RecommendedMovie from "../components/RecommendedMovie";
 import SimilarMovie from "../components/SimilarMovie"
+import Comments from "../components/Comments";
 
 function MovieDetailPage() {
   const { addItem, removeItem, wishlist } = useWishlistStore();
@@ -213,6 +214,8 @@ function MovieDetailPage() {
       </div>
       {recommendingMovies && <RecommendedMovie recommend={recommendingMovies} isLoading={isLoading}/>}
       {similarMovies?.length>0 && <SimilarMovie similar={similarMovies} isLoading={isLoading}/>}
+
+       <Comments movieId={movieDetail?.id}/>
     </div>
   );
 }
