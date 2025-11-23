@@ -44,7 +44,6 @@ function CreditInfo({ credit = [] }) {
             }}
             className="flex items-center gap-4 p-3 rounded-lg bg-black/40 shadow-lg transition-all cursor-pointer"
           >
-            {/* FULLY ROUNDED PROFILE IMAGE */}
             <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-800 flex items-center justify-center text-gray-400 border border-gray-700 shadow-md">
              <Link to={`/charcter-info/${info?.id}`}>
               {profile ? (
