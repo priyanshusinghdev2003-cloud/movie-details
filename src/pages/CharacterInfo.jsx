@@ -25,7 +25,9 @@ function CharacterInfo() {
   }, [id]);
 
   if (!actor)
-    return <div className="text-white p-10 text-xl">Loading actor details...</div>;
+    return (
+      <div className="text-white p-10 text-xl">Loading actor details...</div>
+    );
 
   const {
     name,
@@ -36,7 +38,6 @@ function CharacterInfo() {
     movie_credits,
     also_known_as,
   } = actor;
-
 
   return (
     <div className="w-full text-white pb-20 mt-16">
@@ -111,13 +112,16 @@ function CharacterInfo() {
               transition={{ delay: idx * 0.05 }}
               className="relative"
             >
-              <Link to={`/movie/${movie.id}`}>
-                <MovieCard movie={movie} lazy />
-              </Link>
+              <MovieCard movie={movie} lazy />
 
-           {movie.character && <p className="text-xs text-center text-gray-300 mt-1 absolute top-0 bg-amber-600 p-1 px-2 rounded-r-md">
-              as {movie?.character.length < 10 ? movie.character : movie.character.slice(0,10)+"..."}
-            </p>}
+              {movie.character && (
+                <p className="text-xs text-center text-gray-300 mt-1 absolute top-0 bg-amber-600 p-1 px-2 rounded-r-md">
+                  as{" "}
+                  {movie?.character.length < 10
+                    ? movie.character
+                    : movie.character.slice(0, 10) + "..."}
+                </p>
+              )}
             </motion.div>
           ))}
         </div>
@@ -130,9 +134,7 @@ function CharacterInfo() {
             ?.sort((a, b) => b.popularity - a.popularity)
             ?.slice(0, 6)
             ?.map((movie) => (
-              <Link to={`/movie/${movie.id}`} key={movie.id}>
-                <MovieCard movie={movie} lazy />
-              </Link>
+              <MovieCard movie={movie} lazy key={movie.id} />
             ))}
         </div>
       </div>

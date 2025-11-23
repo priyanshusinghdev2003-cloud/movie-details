@@ -206,7 +206,7 @@ function MovieDetailPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
       >
-        <Trailer trailer={movieTrailer?.results} />
+       {movieTrailer.results && <Trailer trailer={movieTrailer?.results} />}
       </motion.div>
       <div className="flex gap-2 items-center mt-5">
         <CreditInfo credit={getCredit?.cast} />
