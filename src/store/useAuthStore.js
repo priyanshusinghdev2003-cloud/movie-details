@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { account } from "../lib/appwrite";
 
 export const useAuthStore = create((set, get) => ({
+  regionCode:null,
   region: null,
   language: "en-US",
   user: null,
@@ -12,9 +13,8 @@ export const useAuthStore = create((set, get) => ({
   getUserRegion: async () => {
     const savedRegion = sessionStorage.getItem("user_region");
     const savedLanguage = sessionStorage.getItem("user_language");
-
-    if (get().region && get().language) return;
-
+    const savedRegionCode = sessionStorage.getItem("user_regionCode");
+    
     if (savedRegion && savedLanguage) {
       set({ region: savedRegion, language: savedLanguage });
       return;
@@ -23,16 +23,20 @@ export const useAuthStore = create((set, get) => ({
     try {
       const { data } = await axios.get("https://ipapi.co/json/");
 
-      const countryCode = data.country_name;
+      const countryCode = data.country;
       const languageCode = data.languages;
+      const countryName = data.country_name
 
       set({
-        region: countryCode,
+        region: countryName,
         language: languageCode,
+        regionCode: countryCode
       });
 
-      sessionStorage.setItem("user_region", countryCode);
+      sessionStorage.setItem("user_region", countryName);
       sessionStorage.setItem("user_language", languageCode);
+      sessionStorage.setItem("user_regionCode", countryCode);
+
     } catch (error) {
       console.error("Failed to fetch region:", error);
     }

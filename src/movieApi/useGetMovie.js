@@ -21,6 +21,7 @@ export const useMovieApi = create((set, get) => ({
   searchCurrentPage: 1,
   searchTotalPages: 1,
   genres: null,
+  watchProvider: null,
 
   getFeaturedMovie: async ({ region, language }) => {
     const savedFeaturedMovie = get().featuredMovie;
@@ -214,6 +215,16 @@ getAllMovieGenre: async({language})=>{
     set({genres: data?.genres})
   } catch (error) {
     console.log("Error at Fetching Genres: ",error)
+  }
+},
+
+getWatchProvider: async({movieId})=>{
+  set({isLoading: true})
+  try {
+    const {data}=await axiosInstance.get(`/movie/${movieId}/watch/providers`)
+    set({watchProvider: data?.results})
+  } catch (error) {
+    console.log("Error at Fetching Providers: ",error)
   }
 }
 }));
