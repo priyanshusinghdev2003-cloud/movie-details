@@ -15,11 +15,11 @@ function Upcoming() {
           language
         })
     }
-   },[])
+   },[language])
   return (
     <div className="py-2 px-5">
       <div className="flex items-center gap-3 h-24">
-        <h1 className="text-2xl font-bold">What's Upcoming</h1>
+        {upcomingMovie && <h1 className="text-2xl font-bold">What's Upcoming</h1>}
       </div>
       
        <div className="flex gap-4 overflow-x-auto scrollbar-hide px-2 pb-3">

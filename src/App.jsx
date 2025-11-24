@@ -22,7 +22,7 @@ import {
 } from "./pages";
 
 function App() {
-  const { getUserRegion, user, getCurrentUser, loadingUser } = useAuthStore();
+  const { getUserRegion, user, getCurrentUser, loadingUser,region } = useAuthStore();
   const { fetchWishlist } = useWishlistStore();
   useEffect(() => {
     getUserRegion();
@@ -32,7 +32,7 @@ function App() {
         userId: user.$id,
       });
     }
-  }, [user]);
+  }, [region,user]);
   return (
     <>
       <Toaster />

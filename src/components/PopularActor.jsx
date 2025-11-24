@@ -13,7 +13,9 @@ function PopularActor() {
   const [selectedKnownFor, setSelectedKnownFor] = useState(null);
 
   useEffect(() => {
-    getPopularPerson({ language });
+    if(language){
+      getPopularPerson({ language });
+    }
   }, [language]);
 
   if (isLoading) return <PopularActorShimmer />;

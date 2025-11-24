@@ -11,13 +11,14 @@ import Trailer from "../components/Trailer";
 import ReleaseStatus from "../components/ReleaseStatus";
 import MovieDetailShimmer from "../components/MovieDetailShimmer";
 import RecommendedMovie from "../components/RecommendedMovie";
-import SimilarMovie from "../components/SimilarMovie"
+import SimilarMovie from "../components/SimilarMovie";
 import Comments from "../components/Comments";
+import WatchProvider from "../components/WatchProvider";
 
 function MovieDetailPage() {
   const { addItem, removeItem, wishlist } = useWishlistStore();
   const { id } = useParams();
-  const { user,language } = useAuthStore();
+  const { user, language } = useAuthStore();
   const {
     getMovieDetail,
     getMovieRecommendation,
@@ -26,7 +27,7 @@ function MovieDetailPage() {
     recommendingMovies,
     isLoading,
     similarMovies,
-    getSimilarMovie
+    getSimilarMovie,
   } = useMovieApi();
   const [movieDetail, setMovieDetail] = useState(null);
   const [getCredit, setGetCredit] = useState([]);
@@ -59,20 +60,25 @@ function MovieDetailPage() {
       language,
     });
 
-    setMovieTrailer(data);
+    if(data?.results.length >  0 ){
+      setMovieTrailer(data);
+    }
   };
-  
 
   useEffect(() => {
-    getMoviEDetailHandler();
+    if (language) {
+      getMoviEDetailHandler();
+      getMoviEDetailTrailer();
+      getMovieCredit();
+    }
+  }, [id, language]);
+  useEffect(() => {
     getMoviEDetailImageHandler();
-    getMovieCredit();
-    getMoviEDetailTrailer();
-    getSimilarMovie({
-      movieID: id
-    })
-  }, [id]);
 
+    getSimilarMovie({
+      movieID: id,
+    });
+  }, [id]);
 
   const inWishlist = wishlist?.some(
     (i) => i.movieId === String(movieDetail?.id)
@@ -93,18 +99,18 @@ function MovieDetailPage() {
     }
   }, [movieDetail]);
 
-
   // wishlist handler
-   const handleWishlist = () => {
-    if(movieDetail){
+  const handleWishlist = () => {
+    if (movieDetail) {
       if (inWishlist) {
-      const doc = wishlist.find((i) => i.movieId === String(movieDetail?.id ));
-      if (doc) removeItem(doc.$id);
-    } else {
-      addItem({
-        userId: user.$id, movie:movieDetail
-      }); 
-    }
+        const doc = wishlist.find((i) => i.movieId === String(movieDetail?.id));
+        if (doc) removeItem(doc.$id);
+      } else {
+        addItem({
+          userId: user.$id,
+          movie: movieDetail,
+        });
+      }
     }
   };
 
@@ -121,7 +127,10 @@ function MovieDetailPage() {
           transition={{ duration: 1 }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        <div className="absolute bottom-4 md:bottom-0 cursor-pointer z-50 right-0 mr-5 " onClick={handleWishlist}>
+        <div
+          className="absolute bottom-4 md:bottom-0 cursor-pointer z-50 right-0 mr-5 "
+          onClick={handleWishlist}
+        >
           {inWishlist ? (
             <BookmarkCheck size={30} className="text-green-400" />
           ) : (
@@ -130,7 +139,7 @@ function MovieDetailPage() {
         </div>
       </div>
 
-    {/* Poster and Detail  */}
+      {/* Poster and Detail  */}
       <div className="flex flex-row gap-6 px-6 sm:px-12 -mt-20 relative">
         <div className="h-56 w-40 sm:h-74 sm:w-44 rounded-md overflow-hidden shadow-xl shrink-0 mx-auto sm:mx-0 relative">
           <motion.img
@@ -206,16 +215,24 @@ function MovieDetailPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
       >
-       {movieTrailer.results && <Trailer trailer={movieTrailer?.results} />}
+        {movieTrailer.results && <Trailer trailer={movieTrailer?.results} />}
+        <WatchProvider movieId={id} />
       </motion.div>
       <div className="flex gap-2 items-center mt-5">
         <CreditInfo credit={getCredit?.cast} />
         <CreditInfo credit={getCredit?.crew} />
       </div>
-      {recommendingMovies && <RecommendedMovie recommend={recommendingMovies} isLoading={isLoading}/>}
-      {similarMovies?.length>0 && <SimilarMovie similar={similarMovies} isLoading={isLoading}/>}
+      {recommendingMovies && (
+        <RecommendedMovie
+          recommend={recommendingMovies}
+          isLoading={isLoading}
+        />
+      )}
+      {similarMovies?.length > 0 && (
+        <SimilarMovie similar={similarMovies} isLoading={isLoading} />
+      )}
 
-       <Comments movieId={movieDetail?.id}/>
+      <Comments movieId={movieDetail?.id} />
     </div>
   );
 }

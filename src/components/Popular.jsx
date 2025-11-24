@@ -10,8 +10,10 @@ function Popular() {
   const { popularMovie, getPopularMovie, isLoading } = useMovieApi();
   const {language} = useAuthStore()
   useEffect(() => {
-    getPopularMovie({ language });
-  }, []);
+    if(language){
+      getPopularMovie({ language });
+    }
+  }, [language]);
   return (
     <div className="py-2 px-5">
       {/* HEADER */}
