@@ -20,6 +20,7 @@ import {
   Privacy,
   Terms,
 } from "./pages";
+import TvDetailPage from "./pages/TvDetailPage";
 
 function App() {
   const { getUserRegion, user, getCurrentUser, loadingUser,region } = useAuthStore();
@@ -42,6 +43,7 @@ function App() {
           <Route index element={<Homepage />} />
           <Route path="/auth/success" element={<Navigate to={"/"} />} />
           <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
+          <Route path="/tv-detail/:id" element={<TvDetailPage />} />
           <Route path="/user/wishlist" element={<Authcheck />} />
           <Route path="/discover/*" element={<DiscoverPage />} />
           <Route path="/charcter-info/:id" element={<CharacterInfo />} />
