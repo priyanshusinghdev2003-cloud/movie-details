@@ -1,12 +1,12 @@
-import React from 'react'
-import ShimmerCard from "../components/ShimmerCard";
-import {motion} from "framer-motion"
-import MovieCard from "../components/MovieCard"
+import React from "react";
+import ShimmerCard from "./ShimmerCard";
+import { motion } from "framer-motion";
+import MovieCard from "./MovieCard";
 
-function RecommendedMovie({recommend,isLoading}) {
-  if(recommend.length < 1) return
- return(
-     <div className="py-2 px-5">
+function Recommended({ recommend, isLoading, type = "movie" }) {
+  if (recommend.length < 1) return;
+  return (
+    <div className="py-2 px-5">
       {/* HEADER */}
       <div className="flex items-center gap-3 h-24">
         <h1 className="text-2xl font-bold">Recommendation For You</h1>
@@ -23,12 +23,12 @@ function RecommendedMovie({recommend,isLoading}) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <MovieCard movie={movie} lazy />
+                <MovieCard movie={movie} lazy type={type} />
               </motion.div>
             ))}
       </div>
     </div>
- )
+  );
 }
 
-export default RecommendedMovie
+export default Recommended;

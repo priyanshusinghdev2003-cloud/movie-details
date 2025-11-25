@@ -8,12 +8,26 @@ import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useWishlistStore } from "../store/useWishList";
 import ReleaseStatus from "../components/ReleaseStatus";
 import Trailer from "../components/Trailer";
+import RecommendTv from "../components/Recommended";
+import Similar from "../components/Similar";
+import Comments from "../components/Comments";
+import CreditInfo from "../components/CreditInfo";
 
 function TvDetailPage() {
   const { id } = useParams();
 
-  const { isLoading, tvDetail, getTvSeriesdetail, getTvtrailer } =
-    useTvStoreApi();
+  const {
+    isLoading,
+    tvDetail,
+    getTvSeriesdetail,
+    getTvtrailer,
+    getTvRecommendations,
+    recommend,
+    getTvSimilar,
+    similar,
+    getTvCredits,
+    credits,
+  } = useTvStoreApi();
   const { addItem, removeItem, wishlist } = useWishlistStore();
   const { language, user } = useAuthStore();
 
@@ -38,6 +52,18 @@ function TvDetailPage() {
         language,
       });
       getTVSeriesTrailer();
+      getTvRecommendations({
+        tvId: id,
+        language,
+      });
+      getTvSimilar({
+        tvId: id,
+        language,
+      });
+      getTvCredits({
+        tvId: id,
+        language,
+      });
     }
   }, [id, language]);
 
@@ -58,12 +84,17 @@ function TvDetailPage() {
   };
 
   if (!tvDetail) return <TvDetailShimmer />;
+
   return (
     <div className="w-full bg-black text-white pb-20 px-5">
       {/* Banner */}
       <div className="relative w-full h-[55vh] sm:h-[60vh] overflow-hidden">
         <motion.img
-          src={`https://image.tmdb.org/t/p/original${tvDetail.backdrop_path}`}
+          src={
+            tvDetail.backdrop_path
+              ? `https://image.tmdb.org/t/p/original${tvDetail.backdrop_path}`
+              : "/backdrop-default.png"
+          }
           className="w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -85,7 +116,11 @@ function TvDetailPage() {
       <div className="flex flex-row gap-6 px-6 sm:px-12 -mt-20 relative">
         <div className="h-56 w-40 sm:h-74 sm:w-44 rounded-md overflow-hidden shadow-xl shrink-0 mx-auto sm:mx-0 relative">
           <motion.img
-            src={`https://image.tmdb.org/t/p/w500${tvDetail.poster_path}`}
+            src={
+              tvDetail.poster_path
+                ? `https://image.tmdb.org/t/p/w500${tvDetail.poster_path}`
+                : "/default-poster.png"
+            }
             className="w-full h-full object-cover"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,7 +169,7 @@ function TvDetailPage() {
               </span>
             ))}
           </div>
-           <div className="mt-6 space-y-3  p-4 rounded-xl  ">
+          <div className="mt-6 space-y-3  p-4 rounded-xl  ">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-300 text-sm">
               <div>
                 <span className="font-semibold">Status: </span>
@@ -168,15 +203,22 @@ function TvDetailPage() {
           </div>
         </motion.div>
       </div>
-        <motion.div
+      <motion.div
         initial={{ x: -20, opacity: 0 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
-        
       >
         {tvTrailer?.results && <Trailer trailer={tvTrailer?.results} />}
-      
       </motion.div>
+      <div className="flex gap-2 items-center mt-5">
+        <CreditInfo credit={credits?.cast} />
+        <CreditInfo credit={credits?.crew} />
+      </div>
+      {recommend && (
+        <RecommendTv recommend={recommend} type="tv" isLoading={isLoading} />
+      )}
+      {similar && <Similar isLoading={isLoading} similar={similar} type="tv" />}
+      <Comments movieId={id} />
     </div>
   );
 }
