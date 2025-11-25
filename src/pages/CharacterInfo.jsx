@@ -37,6 +37,7 @@ function CharacterInfo() {
     known_for_department,
     movie_credits,
     also_known_as,
+    tv_credits,
   } = actor;
 
   return (
@@ -100,6 +101,7 @@ function CharacterInfo() {
           </p>
         </motion.div>
       </div>
+      {/* movie worked in */}
       <div className="px-5 mt-10">
         <h2 className="text-2xl font-bold mb-4">Movies Worked In</h2>
 
@@ -126,6 +128,34 @@ function CharacterInfo() {
           ))}
         </div>
       </div>
+      {/* tv worked in */}
+      <div className="px-5 mt-10">
+        <h2 className="text-2xl font-bold mb-4">Tv Worked In</h2>
+
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide px-2 pb-3">
+          {tv_credits?.cast?.map((tv, idx) => (
+            <motion.div
+              key={tv.id + idx}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+              className="relative"
+            >
+              <MovieCard movie={tv} type="tv" lazy />
+
+              {tv.character && (
+                <p className="text-xs text-center text-gray-300 mt-1 absolute top-0 bg-amber-600 p-1 px-2 rounded-r-md">
+                  as{" "}
+                  {tv?.character.length < 10
+                    ? tv.character
+                    : tv.character.slice(0, 10) + "..."}
+                </p>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
       <div className="px-5 mt-14">
         <h2 className="text-2xl font-bold mb-4">Known For</h2>
 

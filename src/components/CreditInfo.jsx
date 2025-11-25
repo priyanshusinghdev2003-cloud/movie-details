@@ -27,7 +27,7 @@ function CreditInfo({ credit = [] }) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-[320px] overflow-y-scroll space-y-4 pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 scrollbar-hide mt-5"
+      className="w-full h-[320px] overflow-y-scroll space-y-4 pr-2 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 scrollbar-hide mt-5 px-5"
     >
       {credit.map((info,idx) => {
         const profile = info.profile_path

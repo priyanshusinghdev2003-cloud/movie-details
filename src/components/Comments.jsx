@@ -26,12 +26,10 @@ export default function CommentSystem({ movieId }) {
 
   const { user } = useAuthStore();
 
-  
   const [openReplyBox, setOpenReplyBox] = useState(null);
   const [openReplies, setReplies] = useState(false);
   const [replyText, setReplyText] = useState({});
   const replyInputRef = useRef(null);
-  
 
   const [sortMode, setSortMode] = useState("new");
 
@@ -80,7 +78,6 @@ export default function CommentSystem({ movieId }) {
       }
     }, 120);
   };
-
 
   // toggle replies button
   const toggleViewReplies = async (parent) => {
@@ -180,10 +177,9 @@ export default function CommentSystem({ movieId }) {
                     </div>
 
                     {/* content */}
-                      <p className="mt-2 text-gray-200 whitespace-pre-wrap">
-                        {c.comment}
-                      </p>
-                 
+                    <p className="mt-2 text-gray-200 whitespace-pre-wrap">
+                      {c.comment}
+                    </p>
 
                     {/* actions row */}
                     <div className="flex items-center gap-4 text-sm text-gray-400 mt-3">

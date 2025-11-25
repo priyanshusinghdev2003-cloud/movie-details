@@ -10,8 +10,8 @@ import CreditInfo from "../components/CreditInfo";
 import Trailer from "../components/Trailer";
 import ReleaseStatus from "../components/ReleaseStatus";
 import MovieDetailShimmer from "../components/MovieDetailShimmer";
-import RecommendedMovie from "../components/RecommendedMovie";
-import SimilarMovie from "../components/SimilarMovie";
+import RecommendedMovie from "../components/Recommended";
+import SimilarMovie from "../components/Similar";
 import Comments from "../components/Comments";
 import WatchProvider from "../components/WatchProvider";
 
@@ -60,7 +60,7 @@ function MovieDetailPage() {
       language,
     });
 
-    if(data?.results.length >  0 ){
+    if (data?.results.length > 0) {
       setMovieTrailer(data);
     }
   };
@@ -120,7 +120,12 @@ function MovieDetailPage() {
       {/* Banner */}
       <div className="relative w-full h-[55vh] sm:h-[60vh] overflow-hidden">
         <motion.img
-          src={`https://image.tmdb.org/t/p/original${movieDetail.backdrop_path}`}
+          src={
+            movieDetail.backdrop_path
+              ? `https://image.tmdb.org/t/p/original${movieDetail.backdrop_path}`
+              : "/backdrop-default.png"
+          }
+          alt={movieDetail.title}
           className="w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -143,7 +148,11 @@ function MovieDetailPage() {
       <div className="flex flex-row gap-6 px-6 sm:px-12 -mt-20 relative">
         <div className="h-56 w-40 sm:h-74 sm:w-44 rounded-md overflow-hidden shadow-xl shrink-0 mx-auto sm:mx-0 relative">
           <motion.img
-            src={`https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`}
+            src={
+              movieDetail.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
+                : "/default-poster.png"
+            }
             className="w-full h-full object-cover"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

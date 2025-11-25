@@ -15,7 +15,7 @@ function WatchProvider({ movieId }) {
     getWatchProvider({ movieId });
   }, [movieId]);
 
-  if (!watchProvider) return null;
+  if (!watchProvider || Object.keys(watchProvider).length == 0) return null;
 
   const allCountries = Object.keys(watchProvider);
 

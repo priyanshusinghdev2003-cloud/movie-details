@@ -23,15 +23,17 @@ export const usePersonApi = create((set, get) => ({
     }
   },
 
-  getPopularPersonDetail: async({id,language})=>{
-    set({isLoading: true})
+  getPopularPersonDetail: async ({ id, language }) => {
+    set({ isLoading: true });
     try {
-      const {data}=await axiosInstance.get(`/person/${id}?append_to_response=movie_credits%2Cvideos&language=${language}`)
-      return data
+      const { data } = await axiosInstance.get(
+        `/person/${id}?append_to_response=movie_credits%2Ctv_credits&language=${language}`
+      );
+      return data;
     } catch (error) {
-      console.log("Error at fetching character details: ", error)
-    }finally{
-       set({isLoading: false})
+      console.log("Error at fetching character details: ", error);
+    } finally {
+      set({ isLoading: false });
     }
-  }
+  },
 }));
