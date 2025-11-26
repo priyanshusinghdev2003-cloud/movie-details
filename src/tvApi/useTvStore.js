@@ -9,6 +9,9 @@ export const useTvStoreApi = create((set, get) => ({
   similar: null,
   credits: null,
   personTvCredits: null,
+  searchTvSeries: [],
+  searchCurrentPage: 1,
+  searchTotalPages: 1,
 
   getPopularTvSeries: async ({ language }) => {
     const { popular } = get();
@@ -107,6 +110,41 @@ export const useTvStoreApi = create((set, get) => ({
       console.log("error at fetching person tv credits: ", error);
     } finally {
       set({ isLoading: false });
+    }
+  },
+
+  // search Tv series
+  getSearchTvSeries: async ({
+    query,
+    adult = false,
+    language,
+    year,
+    page = 1,
+  }) => {
+    try {
+      const params = new URLSearchParams({
+        query,
+        include_adult: adult,
+        language,
+        page,
+      });
+
+      if (year) params.append("year", year);
+
+      const { data } = await axiosInstance.get(
+        `/search/tv?${params.toString()}`
+      );
+
+      set((state) => ({
+        searchTvSeries:
+          page === 1
+            ? data.results
+            : [...state.searchTvSeries, ...data.results],
+        searchCurrentPage: data.page,
+        searchTotalPages: data.total_pages,
+      }));
+    } catch (error) {
+      console.log("Error fetching Search:", error);
     }
   },
 }));
