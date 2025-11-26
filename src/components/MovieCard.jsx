@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 
 function MovieCard({ movie: data, type = "movie" }) {
   const cardRef = useRef(null);
+  const imageRef = useRef(null);
 
   const { addItem, removeItem, wishlist } = useWishlistStore();
   const { user } = useAuthStore();
@@ -45,6 +46,15 @@ function MovieCard({ movie: data, type = "movie" }) {
     };
   }, []);
 
+  useEffect(() => {
+    const el = imageRef.current;
+    gsap.to(el, {
+      y: 10,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+  }, []);
+
   const handleWishlist = () => {
     if (!user) {
       toast.error("User not login");
@@ -68,13 +78,14 @@ function MovieCard({ movie: data, type = "movie" }) {
   return (
     <div
       ref={cardRef}
-      className="relative w-[180px] h-[270px] rounded-lg overflow-hidden bg-black cursor-pointer shadow-lg"
+      className="relative w-[180px] h-[270px] rounded-lg overflow-hidden bg-black cursor-pointer shadow-lg movie-card"
     >
       <Link to={`/${type}-detail/${data.id || data.movieId}`}>
         <div className="absolute top-0 bg-gradient-to-t from-black via-black/70 to-transparent backdrop-blur-2xl"></div>
         {/* Poster */}
 
         <img
+          ref={imageRef}
           src={
             data.poster_path
               ? `https://image.tmdb.org/t/p/w500${data.poster_path}`

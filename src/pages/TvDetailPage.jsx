@@ -86,7 +86,12 @@ function TvDetailPage() {
   if (!tvDetail) return <TvDetailShimmer />;
 
   return (
-    <div className="w-full bg-black text-white pb-20 px-5">
+    <motion.div
+      className="w-full bg-black text-white pb-20 px-5"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       {/* Banner */}
       <div className="relative w-full h-[55vh] sm:h-[60vh] overflow-hidden">
         <motion.img
@@ -219,7 +224,7 @@ function TvDetailPage() {
       )}
       {similar && <Similar isLoading={isLoading} similar={similar} type="tv" />}
       <Comments movieId={id} />
-    </div>
+    </motion.div>
   );
 }
 

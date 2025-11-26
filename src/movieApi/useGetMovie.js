@@ -14,7 +14,7 @@ export const useMovieApi = create((set, get) => ({
     day: null,
     week: null,
   },
- discoverMovies: [],
+  discoverMovies: [],
   discoverCurrentPage: 1,
   discoverTotalPages: 1,
   searchMovies: [],
@@ -151,80 +151,103 @@ export const useMovieApi = create((set, get) => ({
     }
   },
 
-  getDiscoverMovies: async ({ adult = false, language, year, selectedGenres = [], page = 1 }) => {
-  try {
-    const params = new URLSearchParams({
-      include_adult: adult,
-      include_video: false,
-      language,
-      page,
-      sort_by: "popularity.desc"
-    });
+  getDiscoverMovies: async ({
+    adult = false,
+    language,
+    year,
+    selectedGenres = [],
+    page = 1,
+  }) => {
+    try {
+      const params = new URLSearchParams({
+        include_adult: adult,
+        include_video: false,
+        language,
+        page,
+        sort_by: "popularity.desc",
+      });
 
-    if (year) params.append("primary_release_year", year);
-    if (selectedGenres.length > 0) params.append("with_genres", selectedGenres.join(","));
+      if (year) params.append("primary_release_year", year);
+      if (selectedGenres.length > 0)
+        params.append("with_genres", selectedGenres.join(","));
 
-    const { data } = await axiosInstance.get(`/discover/movie?${params.toString()}`);
+      const { data } = await axiosInstance.get(
+        `/discover/movie?${params.toString()}`
+      );
 
-    set((state) => ({
-      discoverMovies:
-        page === 1 ? data.results : [...state.discoverMovies, ...data.results],
-      discoverCurrentPage: data.page,
-      discoverTotalPages: data.total_pages,
-    }));
-  } catch (error) {
-    console.log("Error fetching Discover Movies:", error);
-  }
-},
+      set((state) => ({
+        discoverMovies:
+          page === 1
+            ? data.results
+            : [...state.discoverMovies, ...data.results],
+        discoverCurrentPage: data.page,
+        discoverTotalPages: data.total_pages,
+      }));
+    } catch (error) {
+      console.log("Error fetching Discover Movies:", error);
+    }
+  },
 
+  getSearchMovie: async ({
+    query,
+    adult = false,
+    language,
+    year,
+    page = 1,
+  }) => {
+    try {
+      const params = new URLSearchParams({
+        query,
+        include_adult: adult,
+        language,
+        page,
+      });
 
-getSearchMovie: async ({ query, adult = false, language, year, page = 1 }) => {
-  try {
-    const params = new URLSearchParams({
-      query,
-      include_adult: adult,
-      language,
-      page,
-    });
+      if (year) params.append("year", year);
 
-    if (year) params.append("year", year);
+      const { data } = await axiosInstance.get(
+        `/search/movie?${params.toString()}`
+      );
 
-    const { data } = await axiosInstance.get(`/search/movie?${params.toString()}`);
+      set((state) => ({
+        searchMovies:
+          page === 1 ? data.results : [...state.searchMovies, ...data.results],
+        searchCurrentPage: data.page,
+        searchTotalPages: data.total_pages,
+      }));
+    } catch (error) {
+      console.log("Error fetching Search:", error);
+    }
+  },
 
-    set((state) => ({
-      searchMovies:
-        page === 1 ? data.results : [...state.searchMovies, ...data.results],
-      searchCurrentPage: data.page,
-      searchTotalPages: data.total_pages,
-    }));
-  } catch (error) {
-    console.log("Error fetching Search:", error);
-  }
-},
+  // Add a new utility function to clear discover data
+  clearDiscoverMovies: () =>
+    set({
+      discoverMovies: [],
+      discoverCurrentPage: 1,
+      discoverTotalPages: 1,
+    }),
 
-// Add a new utility function to clear discover data
-clearDiscoverMovies: () => set({ 
-    discoverMovies: [],
-    discoverCurrentPage: 1,
-    discoverTotalPages: 1,
-}),
+  getAllMovieGenre: async ({ language }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/genre/movie/list?language=${language}`
+      );
+      set({ genres: data?.genres });
+    } catch (error) {
+      console.log("Error at Fetching Genres: ", error);
+    }
+  },
 
-getAllMovieGenre: async({language})=>{
-  try {
-    const {data}=await axiosInstance.get(`/genre/movie/list?language=${language}`)
-    set({genres: data?.genres})
-  } catch (error) {
-    console.log("Error at Fetching Genres: ",error)
-  }
-},
-
-getWatchProvider: async({movieId})=>{
-  set({isLoading: true})
-  try {
-    const {data}=await axiosInstance.get(`/movie/${movieId}/watch/providers`)
-    set({watchProvider: data?.results})
-  } catch (error) {
-    console.log("Error at Fetching Providers: ",error)
-  }
-}
+  getWatchProvider: async ({ movieId }) => {
+    set({ isLoading: true });
+    try {
+      const { data } = await axiosInstance.get(
+        `/movie/${movieId}/watch/providers`
+      );
+      set({ watchProvider: data?.results });
+    } catch (error) {
+      console.log("Error at Fetching Providers: ", error);
+    }
+  },
 }));

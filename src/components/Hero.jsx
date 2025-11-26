@@ -27,17 +27,21 @@ function Hero({ featuredMovie = [] }) {
     }
   }, [currentImage]);
 
-  const overview ="jhvjyhv"
+  const overview = "jhvjyhv";
   // Limit overview to 40 chars
-//   const overview = featuredMovie[currentImage]?.overview?.length > 60
-//       ? featuredMovie[currentImage]?.overview?.slice(0, 60) + "..."
-//       : featuredMovie[currentImage]?.overview;
+  //   const overview = featuredMovie[currentImage]?.overview?.length > 60
+  //       ? featuredMovie[currentImage]?.overview?.slice(0, 60) + "..."
+  //       : featuredMovie[currentImage]?.overview;
 
   return (
     <div className="relative w-full h-[60vh] overflow-hidden rounded-md">
       {featuredMovie ? (
         <AnimatePresence mode="wait">
-          <div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
             <motion.img
               key={featuredMovie[currentImage]?.id}
               ref={heroRef}
@@ -64,7 +68,7 @@ function Hero({ featuredMovie = [] }) {
                 {overview}
               </p>
             </motion.div>
-          </div>
+          </motion.div>
         </AnimatePresence>
       ) : (
         <ShimmerThumbnail className="bg-black" />

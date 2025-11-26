@@ -41,7 +41,12 @@ function CharacterInfo() {
   } = actor;
 
   return (
-    <div className="w-full text-white pb-20 mt-16">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="w-full text-white pb-20 mt-16"
+    >
       <div className="relative w-full h-[40vh] sm:h-[50vh] overflow-hidden">
         <img
           src={
@@ -168,7 +173,7 @@ function CharacterInfo() {
             ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

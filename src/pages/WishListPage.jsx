@@ -7,7 +7,12 @@ function WishListPage() {
   const { removeItem, wishlist } = useWishlistStore();
 
   return (
-    <div className="mt-20 px-5">
+    <motion.div
+      className="mt-20 px-5 "
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
       <h1 className="text-3xl font-bold mb-5">Your Wishlist</h1>
 
       {/* EMPTY STATE */}
@@ -41,15 +46,12 @@ function WishListPage() {
               className="relative group"
             >
               <MovieCard movie={movie} lazy />
-
-             
             </motion.div>
           ))}
         </div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 
 export default WishListPage;
-
