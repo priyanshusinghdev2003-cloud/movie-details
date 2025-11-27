@@ -1,10 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function Shimmer() {
-  return <div className="animate-pulse bg-gray-700/40 rounded-md"></div>;
-}
-
 function MovieDetailShimmer() {
   return (
     <div className="w-full bg-black text-white pb-20 px-5 animate-pulse">
