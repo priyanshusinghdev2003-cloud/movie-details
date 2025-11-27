@@ -32,7 +32,7 @@ export const useMovieApi = create((set, get) => ({
         `/movie/popular?language=${language}&limit=5&region=${region}`
       );
 
-      set({ featuredMovie: data?.results?.slice(0, 5) });
+      set({ featuredMovie: data?.results?.slice(0, 8) });
     } catch (error) {
       console.error("Error fetching featured movie:", error);
     }

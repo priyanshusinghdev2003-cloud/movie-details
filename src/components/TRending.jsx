@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMovieApi } from "../movieApi/useGetMovie";
 import MovieCard from "./MovieCard";
 import { motion } from "framer-motion";
-import ShimmerCard from "./ShimmerCard"
+import ShimmerCard from "./ShimmerCard";
 function Trending() {
   const [trendingOn, setTrendingOn] = useState("day");
   const { getTrendingMovie, trendingMovie, isLoading } = useMovieApi();
