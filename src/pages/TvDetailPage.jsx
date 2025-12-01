@@ -215,7 +215,7 @@ function TvDetailPage() {
       >
         {tvTrailer?.results && <Trailer trailer={tvTrailer?.results} />}
       </motion.div>
-      <div className="flex gap-2 items-center mt-5">
+      <div className="flex gap-2 flex-col md:flex-row items-center mt-5">
         <CreditInfo credit={credits?.cast} />
         <CreditInfo credit={credits?.crew} />
       </div>

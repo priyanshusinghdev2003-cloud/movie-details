@@ -150,7 +150,7 @@ function MovieDetailPage() {
       </div>
 
       {/* Poster and Detail  */}
-      <div className="flex flex-row gap-6 px-6 sm:px-12 -mt-20 relative">
+      <div className="flex flex-col md:flex-row  gap-6 px-6 sm:px-12 -mt-20 relative">
         <div className="h-56 w-40 sm:h-74 sm:w-44 rounded-md overflow-hidden shadow-xl shrink-0 mx-auto sm:mx-0 relative">
           <motion.img
             src={
@@ -232,7 +232,7 @@ function MovieDetailPage() {
         {movieTrailer.results && <Trailer trailer={movieTrailer?.results} />}
         <WatchProvider movieId={id} />
       </motion.div>
-      <div className="flex gap-2 items-center mt-5">
+      <div className="flex gap-2 flex-col md:flex-row items-center mt-5">
         <CreditInfo credit={getCredit?.cast} />
         <CreditInfo credit={getCredit?.crew} />
       </div>

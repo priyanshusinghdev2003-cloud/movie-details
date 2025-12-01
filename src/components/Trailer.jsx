@@ -36,7 +36,7 @@ function Trailer({ trailer = [] }) {
 
   return (
     <div className="mt-10 px-5 mb-5">
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 flex-col md:flex-row items-center">
         <h1 className="text-xl font-bold text-white mb-4">Videos</h1>
         <div className="p-1 border border-gray-300 rounded-2xl flex text-sm gap-1">
           {["trailer", "teaser", "clip", "Featurette"].map((t) => (
