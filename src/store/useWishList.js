@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { addToWishlist, getWishlist, removeWishlist } from "../lib/wishlist.js";
+import { addToWishlist, getWishlist, removeWishlist } from "../lib/wishList.js";
 
 export const useWishlistStore = create((set, get) => ({
 
