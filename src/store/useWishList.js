@@ -6,9 +6,6 @@ export const useWishlistStore = create((set, get) => ({
   wishlist: [],
   loading: false,
 
-  // -------------------------------
-  // Fetch wishlist for specific user
-  // -------------------------------
   fetchWishlist: async ({userId}) => {
     if (!userId) return;
 
@@ -25,9 +22,7 @@ export const useWishlistStore = create((set, get) => ({
     }
   },
 
-  // -------------------------------
-  // Add movie to wishlist
-  // -------------------------------
+  
   addItem: async ({userId, movie}) => {
     if (!userId) return;
 
@@ -44,9 +39,7 @@ export const useWishlistStore = create((set, get) => ({
     }
   },
 
-  // -------------------------------
-  // Remove from wishlist
-  // -------------------------------
+
   removeItem: async (docId) => {
     try {
       await removeWishlist(docId);
